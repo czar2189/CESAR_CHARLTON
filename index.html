@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo de Estilo UI Rediseñado</title>
+    <title>Ejemplo de Estilo UI con Carrusel</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -43,31 +43,43 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .card {
-            background-color: #f8f9fa;
+        .carousel {
+            position: relative;
+            max-width: 100%;
+            margin: 20px 0;
+            overflow: hidden;
             border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .carousel-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
         }
         footer {
             text-align: center;
             padding: 10px;
             background-color: #007BFF;
             color: white;
-            position: relative;
-            bottom: 0;
-            width: 100%;
             margin-top: 20px;
-        }
-        @media (max-width: 600px) {
-            nav {
-                display: block;
-            }
-            nav a {
-                display: block;
-                margin: 5px 0;
-            }
         }
     </style>
 </head>
@@ -83,6 +95,17 @@
     </nav>
     <div class="container">
         <h2>Contenido Principal</h2>
+        <div class="carousel">
+            <div class="carousel-images" id="carouselImages">
+                <img src="https://via.placeholder.com/800x400.png?text=Imagen+1" alt="Imagen 1">
+                <img src="https://via.placeholder.com/800x400.png?text=Imagen+2" alt="Imagen 2">
+                <img src="https://via.placeholder.com/800x400.png?text=Imagen+3" alt="Imagen 3">
+            </div>
+            <div class="carousel-buttons">
+                <button class="button" onclick="prevSlide()">❮</button>
+                <button class="button" onclick="nextSlide()">❯</button>
+            </div>
+        </div>
         <div class="card">
             <h3>Título de la Tarjeta 1</h3>
             <p>Este es un ejemplo de contenido en una tarjeta. Puedes agregar información relevante aquí.</p>
@@ -95,5 +118,30 @@
     <footer>
         <p>&copy; 2024 Mi Página Web Moderna</p>
     </footer>
+
+    <script>
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.carousel-images img');
+            if (index >= slides.length) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = slides.length - 1;
+            } else {
+                currentIndex = index;
+            }
+            const offset = -currentIndex * 100;
+            document.getElementById('carouselImages').style.transform = `translateX(${offset}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+    </script>
 </body>
 </html>
